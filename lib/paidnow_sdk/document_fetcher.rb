@@ -27,7 +27,10 @@ module PaidnowSdk
 
     def download(url)
       response = HTTP.timeout(config.timeout).get(url)
-      raise DownloadFailed, "document_url returned status #{response.status}" unless response.status.success?
+      unless response.status.success?
+        raise DownloadFailed,
+              "document_url returned status #{response.status}"
+      end
 
       response.body.to_s
     rescue HTTP::Error => e
@@ -35,7 +38,9 @@ module PaidnowSdk
     end
 
     def validate_pdf!(bytes)
-      raise InvalidContent, 'Downloaded content is not a valid PDF' unless bytes.byteslice(0, 5) == PDF_MAGIC_BYTES
+      return if bytes.byteslice(0, 5) == PDF_MAGIC_BYTES
+
+      raise InvalidContent, 'Downloaded content is not a valid PDF'
     end
   end
 end

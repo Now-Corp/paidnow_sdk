@@ -12,7 +12,10 @@ RSpec.describe PaidnowSdk::WebhookSignature do
   end
 
   it 'rejects a signature produced with a different secret' do
-    expect(described_class.valid?(payload: payload, signature: signature_for(payload, 'wrong'))).to be false
+    expect(described_class.valid?(payload: payload,
+                                  signature: signature_for(
+                                    payload, 'wrong'
+                                  ))).to be false
   end
 
   it 'rejects a signature for a different body' do

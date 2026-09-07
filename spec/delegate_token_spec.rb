@@ -1,6 +1,8 @@
 RSpec.describe PaidnowSdk::DelegateToken do
   let(:rsa) { OpenSSL::PKey::RSA.new(2048) }
-  let(:tradee) { { id: 42, email: 'trade@example.test', name: 'Acme Plumbing', phone: '0400000000', abn: '123' } }
+  let(:tradee) do
+    { id: 42, email: 'trade@example.test', name: 'Acme Plumbing', phone: '0400000000', abn: '123' }
+  end
 
   before { configure_sdk(private_key: rsa.to_pem) }
 
@@ -23,7 +25,10 @@ RSpec.describe PaidnowSdk::DelegateToken do
     claims, = decode(described_class.sign(tradee: tradee))
 
     expect(claims['tradee_data']).to eq(
-      'email' => 'trade@example.test', 'name' => 'Acme Plumbing', 'phone' => '0400000000', 'abn' => '123'
+      'email' => 'trade@example.test',
+      'name' => 'Acme Plumbing',
+      'phone' => '0400000000',
+      'abn' => '123'
     )
   end
 
