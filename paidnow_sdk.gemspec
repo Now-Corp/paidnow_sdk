@@ -14,6 +14,11 @@ Gem::Specification.new do |spec|
   spec.license = 'LicenseRef-Proprietary'
 
   spec.metadata = {
+    # This gem is distributed by git tag, not from a gem server (see README).
+    # `.invalid` is a reserved TLD that can never resolve, so a stray
+    # `gem push` or `rake release` fails instead of publishing the gem to
+    # rubygems.org or anywhere else.
+    'allowed_push_host' => 'https://gem-push-disabled.invalid',
     'source_code_uri' => spec.homepage,
     'bug_tracker_uri' => "#{spec.homepage}/issues",
     'changelog_uri' => "#{spec.homepage}/blob/HEAD/CHANGELOG.md"
@@ -29,6 +34,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'jwt', '~> 2.5'
 
   spec.add_development_dependency 'rake', '~> 13.0'
+  spec.add_development_dependency 'rubocop', '~> 1.50'
   spec.add_development_dependency 'rspec', '~> 3.9'
   spec.add_development_dependency 'webmock', '~> 3.9'
 end

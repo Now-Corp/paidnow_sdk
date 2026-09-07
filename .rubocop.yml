@@ -1,0 +1,32 @@
+AllCops:
+  TargetRubyVersion: 2.6
+  NewCops: enable
+  SuggestExtensions: false
+
+# The source is hand-wrapped at 80; leave headroom for specs.
+Layout/LineLength:
+  Max: 100
+
+# Off for now only because no file carries the magic comment yet, and this gem
+# supports Ruby 2.6, where a mutated string literal would raise at runtime
+# rather than being caught by the specs. Add the comments, run the specs, then
+# turn this on.
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+# `describe`/`context` blocks are long by nature.
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*.rb'
+    - '*.gemspec'
+
+Metrics/MethodLength:
+  Max: 20
+
+Metrics/AbcSize:
+  Max: 20
+
+# Every class here is documented at the top of its file in prose, not in the
+# rubocop-mandated position.
+Style/Documentation:
+  Enabled: false

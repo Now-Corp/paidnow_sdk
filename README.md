@@ -10,9 +10,20 @@ way in.
 
 ## Installation
 
+The gem is not published to a gem server. It is installed straight from this
+public repository, so no registry account or token is involved. In your
+`Gemfile`:
+
 ```ruby
-gem 'paidnow_sdk'
+gem 'paidnow_sdk', git: 'https://github.com/Now-Corp/paidnow_sdk', tag: 'v0.1.0'
 ```
+
+Pin the `tag`. Without it Bundler tracks the default branch and you will pick
+up unreleased changes; `Gemfile.lock` records the exact commit either way.
+Released versions are listed at
+[tags](https://github.com/Now-Corp/paidnow_sdk/tags).
+
+To upgrade, change the tag and run `bundle update paidnow_sdk`.
 
 Or, from a checkout:
 
