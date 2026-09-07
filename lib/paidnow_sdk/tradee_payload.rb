@@ -13,7 +13,7 @@ module PaidnowSdk
     end
 
     def to_h
-      SECTIONS.each_with_object({}) { |section, out| out[section] = sections[section] }
+      SECTIONS.to_h { |section| [section, sections[section]] }
     end
     alias to_hash to_h
 

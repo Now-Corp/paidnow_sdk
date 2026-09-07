@@ -34,8 +34,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'http', '>= 4.4', '< 6.0'
   spec.add_dependency 'jwt', '~> 2.5'
 
-  spec.add_development_dependency 'rake', '~> 13.0'
-  spec.add_development_dependency 'rspec', '~> 3.9'
-  spec.add_development_dependency 'rubocop', '~> 1.50'
-  spec.add_development_dependency 'webmock', '~> 3.9'
+  # Development dependencies live in the Gemfile: RuboCop cannot install on
+  # Ruby 2.6, which this gem still supports, so the gemspec must stay clean of
+  # it for `bundle install` to resolve across the test matrix.
 end

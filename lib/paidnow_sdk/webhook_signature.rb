@@ -21,7 +21,7 @@ module PaidnowSdk
     def valid?
       return false if signature.to_s.empty? || secret.to_s.empty?
 
-      secure_compare(expected, signature)
+      secure_compare?(expected, signature)
     end
 
     private
@@ -36,12 +36,13 @@ module PaidnowSdk
 
     # ActiveSupport::SecurityUtils.secure_compare, minus ActiveSupport: digest
     # first so the comparison is length-independent, then compare byte by byte.
-    def secure_compare(left, right)
-      fixed_length_secure_compare(Digest::SHA256.digest(left),
-                                  Digest::SHA256.digest(right)) && left == right
+    # Named with `?` per Ruby convention; ActiveSupport spells these without.
+    def secure_compare?(left, right)
+      fixed_length_secure_compare?(Digest::SHA256.digest(left),
+                                   Digest::SHA256.digest(right)) && left == right
     end
 
-    def fixed_length_secure_compare(left, right)
+    def fixed_length_secure_compare?(left, right)
       return false unless left.bytesize == right.bytesize
 
       bytes = left.unpack("C#{left.bytesize}")
