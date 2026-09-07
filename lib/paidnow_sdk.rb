@@ -1,5 +1,3 @@
-# PaidNow SDK.
-#
 # Everything under PaidnowSdk speaks the PaidNow wire protocol and nothing else:
 # no web framework, no ORM, no host domain concepts. Credentials and logging are
 # injected by the application that uses it, so the SDK can be configured per
@@ -27,7 +25,7 @@ module PaidnowSdk
       config
     end
 
-    # Test seam: drops any configuration already applied.
+    # Test seam.
     def reset_config!
       @config = nil
     end
