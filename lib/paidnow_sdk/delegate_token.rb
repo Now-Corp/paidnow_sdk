@@ -45,12 +45,16 @@ module PaidnowSdk
         iat: now,
         jti: "#{now}/#{SecureRandom.hex(18)}",
         platform_id: config.client_id,
-        tradee_data: {
-          email: tradee[:email],
-          name: tradee[:name],
-          phone: tradee[:phone],
-          abn: tradee[:abn]
-        }
+        tradee_data: tradee_data
+      }
+    end
+
+    def tradee_data
+      {
+        email: tradee[:email],
+        name: tradee[:name],
+        phone: tradee[:phone],
+        abn: tradee[:abn]
       }
     end
 

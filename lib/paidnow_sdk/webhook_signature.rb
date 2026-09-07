@@ -37,7 +37,8 @@ module PaidnowSdk
     # ActiveSupport::SecurityUtils.secure_compare, minus ActiveSupport: digest
     # first so the comparison is length-independent, then compare byte by byte.
     def secure_compare(left, right)
-      fixed_length_secure_compare(Digest::SHA256.digest(left), Digest::SHA256.digest(right)) && left == right
+      fixed_length_secure_compare(Digest::SHA256.digest(left),
+                                  Digest::SHA256.digest(right)) && left == right
     end
 
     def fixed_length_secure_compare(left, right)

@@ -22,7 +22,9 @@ RSpec.describe PaidnowSdk::Client do
       stub_request(:post, "#{api}/tradee-data/create").to_return(status: 422, body: 'bad tradee')
 
       expect { described_class.new.create_tradee_data({}, 'dtoken') }
-        .to raise_error(PaidnowSdk::RequestError, /Unprocessable Entity: bad tradee/) { |e| expect(e.status).to eq(422) }
+        .to raise_error(PaidnowSdk::RequestError, /Unprocessable Entity: bad tradee/) { |e|
+              expect(e.status).to eq(422)
+            }
     end
 
     it 'never touches the network when the API is stubbed out' do

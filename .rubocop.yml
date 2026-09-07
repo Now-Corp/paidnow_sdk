@@ -30,3 +30,8 @@ Metrics/AbcSize:
 # rubocop-mandated position.
 Style/Documentation:
   Enabled: false
+
+# This gem is installed from a git tag, not pushed to a gem server, so there is
+# no RubyGems account for MFA to apply to.
+Gemspec/RequireMFA:
+  Enabled: false
