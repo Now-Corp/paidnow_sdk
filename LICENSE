@@ -1,0 +1,57 @@
+Copyright (c) 2026 Now Corp Pty Ltd (ABN 17 691 932 671). All rights reserved.
+
+This software and its accompanying documentation (the "Software") are the
+proprietary property of Now Corp Pty Ltd ("Now Corp"). The source code is
+published openly for inspection, but the Software is licensed, not sold, and
+no rights are granted except as expressly set out below or in a separate
+written agreement signed by Now Corp. Source availability is not an
+open-source licence.
+
+1. Source availability. The source code of the Software is published publicly
+   so that it may be read, inspected and audited by anyone. Now Corp grants
+   every person permission to view and read the Software, and to retain
+   incidental copies made by a web browser, a package manager, or a source
+   code host in the course of doing so, for the purposes of evaluation,
+   security review, and reference.
+
+2. No other licence. Except as stated in clauses 1 and 3, no person or entity
+   is granted any right to use, run, copy, modify, merge, publish, distribute,
+   sublicense, sell, or create derivative works of the Software, in whole or in
+   part, without the prior written permission of Now Corp. Publication of the
+   Software in a public repository or package registry, including its
+   availability for download from a package registry, does not constitute such
+   permission.
+
+3. Permitted internal use. Employees and contractors of Now Corp, and parties
+   who have entered a written agreement with Now Corp covering the Software,
+   may use and modify the Software solely as that engagement or agreement
+   permits, and solely for Now Corp's benefit.
+
+4. No patent or trademark licence. No licence to any patent, trade mark, trade
+   name, or other intellectual property of Now Corp is granted by this notice
+   or by any distribution of the Software.
+
+   Where the Software is hosted on a public source code host, rights that the
+   host's own terms of service confer on its users, such as the ability to fork
+   a public repository within that host, operate in addition to this notice.
+   Nothing in this clause 4 withdraws them, and nothing in those terms grants
+   any right to run, deploy, or redistribute the Software outside that host.
+
+5. Notices. This notice must be reproduced in full in every copy or
+   substantial portion of the Software.
+
+6. No warranty. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
+   KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+   NOTHING IN THIS NOTICE EXCLUDES, RESTRICTS OR MODIFIES ANY GUARANTEE,
+   RIGHT OR REMEDY THAT CANNOT LAWFULLY BE EXCLUDED, RESTRICTED OR MODIFIED
+   UNDER THE AUSTRALIAN CONSUMER LAW.
+
+7. Limitation of liability. TO THE MAXIMUM EXTENT PERMITTED BY LAW, IN NO
+   EVENT SHALL NOW CORP BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+   WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF
+   OR IN CONNECTION WITH THE SOFTWARE OR ITS USE.
+
+8. Governing law. This notice is governed by the laws of Australia.
+
+Enquiries: https://github.com/Now-Corp/paidnow_sdk

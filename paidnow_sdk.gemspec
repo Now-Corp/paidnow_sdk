@@ -3,15 +3,15 @@ require File.expand_path('lib/paidnow_sdk/version', __dir__)
 Gem::Specification.new do |spec|
   spec.name        = 'paidnow_sdk'
   spec.version     = PaidnowSdk::VERSION
-  spec.authors     = ['Smata']
+  spec.authors     = ['Ishan-Ravindu']
   spec.summary     = 'Client for the PaidNow invoice funding API'
   spec.description = 'Signs delegate tokens, calls the PaidNow API, verifies webhook ' \
                      'signatures and fetches PaidNow-hosted documents. No web framework, no ORM.'
   spec.homepage    = 'https://github.com/Now-Corp/paidnow_sdk'
 
-  # TODO: replace with the SPDX identifier chosen for release, and add the
-  # matching LICENSE file. RubyGems rejects an unknown identifier on push.
-  spec.license = 'Nonstandard'
+  # Proprietary: see LICENSE. Not an open-source licence, so there is no SPDX
+  # identifier for it; 'LicenseRef-' is the SPDX form for exactly this case.
+  spec.license = 'LicenseRef-Proprietary'
 
   spec.metadata = {
     'source_code_uri' => spec.homepage,

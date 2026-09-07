@@ -126,4 +126,7 @@ bundle exec rake
 
 ## License
 
-See [LICENSE](LICENSE).
+Proprietary. The source is published openly so it can be read and audited, but
+that is not an open-source licence and it grants no right to run or
+redistribute the gem. See [LICENSE](LICENSE), and contact Now Corp if you want
+to integrate.
