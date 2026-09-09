@@ -1,0 +1,96 @@
+name: Release
+
+# Cuts a tag and a GitHub Release whenever the version constant changes on main.
+# The release is gated on release_check.rb (version + CHANGELOG validation),
+# the specs, rubocop and a successful gem build. Nothing is pushed to RubyGems:
+# the gemspec deliberately disables that.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'lib/paidnow_sdk/version.rb'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+
+      # Hard failure when the version is malformed, disagrees with the gemspec,
+      # or has no CHANGELOG.md section of its own.
+      - name: Validate version and changelog
+        id: check
+        run: |
+          ruby script/release_check.rb \
+            --notes-out "$RUNNER_TEMP/release_notes.md" \
+            --github-output "$GITHUB_OUTPUT"
+
+      # An unchanged version is not an error, it is a no-op. Only genuinely new
+      # versions go on to be tagged.
+      - name: Check whether the tag already exists
+        id: tag
+        run: |
+          if git rev-parse -q --verify "refs/tags/${{ steps.check.outputs.tag }}" >/dev/null; then
+            echo "Tag ${{ steps.check.outputs.tag }} already exists; nothing to release."
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run specs
+        if: steps.tag.outputs.exists == 'false'
+        run: bundle exec rake
+
+      - name: Run rubocop
+        if: steps.tag.outputs.exists == 'false'
+        run: bundle exec rubocop
+
+      # Built to an explicit path: rubygems would otherwise name a prerelease
+      # file 0.2.0.pre.rc1 rather than 0.2.0-rc1, breaking the asset upload.
+      - name: Build gem
+        if: steps.tag.outputs.exists == 'false'
+        run: gem build paidnow_sdk.gemspec --output "$RUNNER_TEMP/paidnow_sdk.gem"
+
+      - name: Create and push tag
+        if: steps.tag.outputs.exists == 'false'
+        env:
+          TAG: ${{ steps.check.outputs.tag }}
+          VERSION: ${{ steps.check.outputs.version }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git tag -a "$TAG" -m "Release $VERSION"
+          git push origin "refs/tags/$TAG"
+
+      - name: Create GitHub Release
+        if: steps.tag.outputs.exists == 'false'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ steps.check.outputs.tag }}
+          VERSION: ${{ steps.check.outputs.version }}
+        run: |
+          # A version carrying a prerelease suffix is flagged as such.
+          prerelease=''
+          case "$VERSION" in
+            *[-.]alpha*|*[-.]beta*|*[-.]rc*|*[-.]pre*) prerelease='--prerelease' ;;
+          esac
+
+          gh release create "$TAG" \
+            --title "v$VERSION" \
+            --notes-file "$RUNNER_TEMP/release_notes.md" \
+            --verify-tag \
+            $prerelease \
+            "$RUNNER_TEMP/paidnow_sdk.gem#paidnow_sdk-$VERSION.gem"

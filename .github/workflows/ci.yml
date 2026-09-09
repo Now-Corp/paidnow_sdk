@@ -33,6 +33,18 @@ jobs:
           bundler-cache: true
       - run: bundle exec rubocop
 
+  changelog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+      # Fails the pull request when the version and CHANGELOG.md disagree, so a
+      # bad release is caught here rather than by the release workflow.
+      - run: ruby script/release_check.rb
+
   build:
     runs-on: ubuntu-latest
     steps:
