@@ -9,10 +9,11 @@ module PaidnowSdk
   class Config
     attr_accessor :client_id, :api_url, :web_url,
                   :private_key, :private_key_id, :webhook_secret,
-                  :logger, :stub_api, :timeout,
+                  :webhook_tolerance, :logger, :stub_api, :timeout,
                   :token_issuer, :token_audience, :user_agent
 
     DEFAULT_TIMEOUT_SECONDS = 15
+    DEFAULT_WEBHOOK_TOLERANCE_SECONDS = 300
 
     # PaidNow's own identity: what it expects in the `aud` claim of a delegate
     # token. The same for every integrator, so it is a default rather than a
@@ -22,11 +23,12 @@ module PaidnowSdk
     DEFAULT_USER_AGENT = "paidnow_sdk/#{PaidnowSdk::VERSION}".freeze
 
     def initialize
-      @logger         = Logger.new(IO::NULL)
-      @stub_api       = false
-      @timeout        = DEFAULT_TIMEOUT_SECONDS
-      @token_audience = DEFAULT_TOKEN_AUDIENCE
-      @user_agent     = DEFAULT_USER_AGENT
+      @logger            = Logger.new(IO::NULL)
+      @stub_api          = false
+      @timeout           = DEFAULT_TIMEOUT_SECONDS
+      @webhook_tolerance = DEFAULT_WEBHOOK_TOLERANCE_SECONDS
+      @token_audience    = DEFAULT_TOKEN_AUDIENCE
+      @user_agent        = DEFAULT_USER_AGENT
     end
 
     def api_base
