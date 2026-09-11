@@ -58,6 +58,7 @@ end
 | `token_issuer` | to sign tokens | — | Platform identity for the `iss` claim, issued to you by PaidNow. |
 | `token_audience` | no | `paidnow.com` | The `aud` claim PaidNow expects. |
 | `webhook_secret` | to verify webhooks | — | Shared secret for the delivery HMAC. |
+| `webhook_tolerance` | no | `300` | Seconds a webhook's `X-PaidNow-Timestamp` may drift before the delivery is rejected as a replay. `0` disables the check. |
 | `web_url` | no | — | Base URL of the PaidNow web app, if you link to it. |
 | `user_agent` | no | `paidnow_sdk/<version>` | Sent on every request. |
 | `timeout` | no | `15` | Seconds, applied to every HTTP call. |
@@ -71,7 +72,7 @@ end
 | `PaidnowSdk::Client` | HTTP transport. Hashes in, parsed JSON out, `RequestError` otherwise. |
 | `PaidnowSdk::DelegateToken` | Signs the short-lived RS256 token for one tradee. Takes a plain hash. |
 | `PaidnowSdk::TradeePayload` | Validates the six sections the tradee-data endpoint expects. |
-| `PaidnowSdk::WebhookSignature` | Verifies the HMAC signature on an incoming webhook. |
+| `PaidnowSdk::WebhookSignature` | Verifies the timestamped HMAC signature on an incoming webhook. |
 | `PaidnowSdk::DocumentFetcher` | Downloads a document and proves it is a PDF. |
 
 ## Usage
@@ -107,11 +108,18 @@ Verifying a webhook and fetching the document it points at:
 ```ruby
 raise 'bad signature' unless PaidnowSdk::WebhookSignature.valid?(
   payload: request.raw_post,
-  signature: request.headers['X-Paidnow-Signature']
+  signature: request.headers['X-Paidnow-Signature'],
+  timestamp: request.headers['X-Paidnow-Timestamp']
 )
 
 bytes = PaidnowSdk::DocumentFetcher.new.fetch_pdf(document_url)
 ```
+
+PaidNow signs `"{timestamp}.{payload}"`, so both headers are required: the
+signature proves the body, and rejecting a timestamp older than
+`webhook_tolerance` is what stops a captured delivery from being replayed.
+Pass the raw request body -- re-serialising the JSON changes the bytes and
+breaks the signature.
 
 `fetch_pdf` raises `DownloadFailed` (worth retrying) or `InvalidContent` (not
 worth retrying) and returns the raw bytes otherwise.
