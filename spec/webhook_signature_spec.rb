@@ -9,8 +9,10 @@ RSpec.describe PaidnowSdk::WebhookSignature do
   end
 
   def valid?(**overrides)
-    described_class.valid?(**{ payload: payload, timestamp: timestamp,
-                               signature: signature_for(payload) }.merge(overrides))
+    args = { payload: payload, timestamp: timestamp, signature: signature_for(payload) }
+    args.update(overrides)
+
+    described_class.valid?(**args)
   end
 
   it 'accepts a signature produced with the configured secret' do
